@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique de la Belleza | Salón de Estilismo & Spa Capilar</title>
+  <meta name="description" content="Salón de belleza exclusivo y de alta gama. Cortes de autor, balayage, tratamientos capilares y productos profesionales.">
+
+  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#FDFBF7',
+              100: '#F8F4EC',
+              200: '#EFE7D8',
+              300: '#DFD1B8',
+              400: '#C7B18E',
+              500: '#AC9066',
+              600: '#8E734D',
+              700: '#6E5638',
+              800: '#4D3A24',
+              900: '#2C2014',
+            },
+            noir: {
+              DEFAULT: '#141210',
+              soft: '#211E1B',
+              muted: '#3B3632',
+            },
+            champagne: '#E5C492',
+            roseaccent: '#E8D5CE',
+          },
+          boxShadow: {
+            'soft': '0 10px 30px -5px rgba(28, 25, 23, 0.05)',
+            'elevated': '0 20px 40px -10px rgba(44, 32, 20, 0.10)',
+            'glow': '0 0 25px rgba(212, 175, 55, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Efecto de scrollbar suave y estética general */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F8F4EC;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #DFD1B8;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C7B18E;
+    }
+  </style>
+</head>
+<body class="bg-brand-50 text-noir font-sans antialiased selection:bg-brand-200 selection:text-noir-soft">
+
+  <!-- TOAST NOTIFICACIÓN FLOTANTE -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-noir text-white px-5 py-3.5 rounded-2xl shadow-elevated border border-brand-800">
+    <i data-lucide="check-circle" class="w-5 h-5 text-champagne shrink-0"></i>
+    <span id="toastMessage" class="text-sm font-medium">Producto añadido con éxito</span>
+  </div>
+
+  <!-- HEADER / NAVEGACIÓN -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-brand-200/70 transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo -->
+        <a href="#" class="group flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-100 border border-brand-300 flex items-center justify-center text-brand-700 group-hover:scale-105 transition-transform duration-300">
+            <i data-lucide="sparkles" class="w-5 h-5 text-brand-600"></i>
+          </div>
+          <div>
+            <span class="block font-serif text-xl sm:text-2xl font-bold tracking-tight text-noir group-hover:text-brand-700 transition-colors">
+              Boutique <span class="italic font-normal text-brand-600">de la Belleza</span>
+            </span>
+            <span class="block text-[10px] uppercase tracking-widest text-noir-muted font-medium">Haute Coiffure & Spa</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-noir-soft">
+          <a href="#servicios" class="hover:text-brand-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Servicios</a>
+          <a href="#reserva" class="hover:text-brand-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Reservar Cita</a>
+          <a href="#productos" class="hover:text-brand-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Tienda</a>
+          <a href="#nosotros" class="hover:text-brand-600 transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-brand-500 hover:after:w-full after:transition-all">Experiencia</a>
+        </nav>
+
+        <!-- Right Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Carrito Contador -->
+          <button id="cartBtn" class="relative p-2.5 rounded-full hover:bg-brand-100 text-noir transition-colors" title="Ver carrito">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center ring-2 ring-white">0</span>
+          </button>
+
+          <!-- Botón CTA Header -->
+          <a href="#reserva" class="hidden sm:inline-flex items-center gap-2 bg-noir hover:bg-brand-800 text-white text-xs md:text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md transform hover:-translate-y-0.5">
+            <i data-lucide="calendar" class="w-4 h-4 text-champagne"></i>
+            <span>Reservar Cita</span>
+          </a>
+
+          <!-- Botón Móvil Menú -->
+          <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-xl hover:bg-brand-100 text-noir transition-colors focus:outline-none" aria-label="Abrir menú">
+            <i id="menuIcon" data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-brand-200 px-6 py-6 space-y-4 shadow-lg">
+      <a href="#servicios" class="block text-base font-medium text-noir hover:text-brand-600 mobile-nav-link">Catálogo de Servicios</a>
+      <a href="#reserva" class="block text-base font-medium text-noir hover:text-brand-600 mobile-nav-link">Agendar Cita</a>
+      <a href="#productos" class="block text-base font-medium text-noir hover:text-brand-600 mobile-nav-link">Tienda de Productos</a>
+      <a href="#nosotros" class="block text-base font-medium text-noir hover:text-brand-600 mobile-nav-link">Nuestra Filosofía</a>
+      <div class="pt-4 border-t border-brand-100">
+        <a href="#reserva" class="w-full flex items-center justify-center gap-2 bg-noir text-white font-medium py-3 rounded-xl shadow-md mobile-nav-link">
+          <i data-lucide="calendar" class="w-4 h-4 text-champagne"></i>
+          <span>Reservar Cita Ahora</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden pt-8 pb-16 md:pt-16 md:pb-24 lg:pt-20 lg:pb-32 bg-gradient-to-b from-brand-100/50 via-brand-50 to-brand-50">
+      <!-- Decoración de fondo sutil -->
+      <div class="absolute -top-32 -right-32 w-96 h-96 bg-brand-200/40 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/2 -left-32 w-80 h-80 bg-roseaccent/30 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          <!-- Contenido Texto Hero (Mobile-First) -->
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <!-- Badge Superior -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-brand-300/80 shadow-soft text-xs font-semibold tracking-wide text-brand-700 uppercase">
+              <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+              Atención Exclusiva & Personalizada
+            </div>
+
+            <!-- Título Principal -->
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-noir font-bold tracking-tight leading-[1.15]">
+              Realza tu esencia con el arte del <span class="italic font-normal text-brand-600 underline decoration-brand-300 decoration-wavy decoration-1 underline-offset-8">estilismo de autor</span>.
+            </h1>
+
+            <!-- Subtítulo -->
+            <p class="text-base sm:text-lg text-noir-muted max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+              En <strong class="text-noir font-medium">Boutique de la Belleza</strong> fusionamos técnicas de vanguardia, diagnóstico capilar milimétrico y una atmósfera de calma y sofisticación pensada para ti.
+            </p>
+
+            <!-- Acciones CTA -->
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+              <a href="#reserva" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-noir hover:bg-brand-800 text-white font-semibold px-8 py-4 rounded-full text-base transition-all duration-300 shadow-elevated hover:shadow-glow transform hover:-translate-y-0.5">
+                <i data-lucide="sparkles" class="w-5 h-5 text-champagne"></i>
+                <span>Reservar Cita</span>
+              </a>
+
+              <a href="#servicios" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-brand-100 text-noir border border-brand-300/80 font-medium px-7 py-4 rounded-full text-base transition-all duration-200 shadow-soft">
+                <span>Ver Servicios</span>
+                <i data-lucide="arrow-down" class="w-4 h-4 text-brand-600"></i>
+              </a>
+            </div>
+
+            <!-- Social Proof / Métricas de confianza -->
+            <div class="pt-6 border-t border-brand-200/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-10 text-left">
+              <div class="flex items-center gap-3">
+                <div class="flex -space-x-2">
+                  <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Cliente">
+                  <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&h=120&q=80" alt="Cliente">
+                  <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80" alt="Cliente">
+                </div>
+                <div>
+                  <div class="flex items-center text-amber-500 text-xs">
+                    ★★★★★ <span class="ml-1 text-noir font-bold text-xs">4.9/5</span>
+                  </div>
+                  <span class="text-xs text-noir-muted">+1,200 reseñas verificadas</span>
+                </div>
+              </div>
+
+              <div class="h-8 w-px bg-brand-200 hidden sm:block"></div>
+
+              <div>
+                <span class="block text-xl font-bold font-serif text-noir">10+ Años</span>
+                <span class="text-xs text-noir-muted">Creando estilos únicos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Imagen / Composición Visual Hero -->
+          <div class="lg:col-span-5 relative">
+            <div class="relative mx-auto max-w-sm sm:max-w-md lg:max-w-none">
+              <!-- Marco Principal -->
+              <div class="relative z-10 rounded-3xl overflow-hidden shadow-elevated border-4 border-white aspect-[4/5] bg-brand-200">
+                <img 
+                  src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=80" 
+                  alt="Instalaciones Boutique de la Belleza" 
+                  class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700 ease-out"
+                >
+                <div class="absolute inset-0 bg-gradient-to-t from-noir/70 via-transparent to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6 text-white">
+                  <span class="text-xs font-semibold uppercase tracking-wider text-champagne">Colección Otoño / Invierno</span>
+                  <p class="font-serif text-xl font-semibold mt-0.5">Diagnóstico Capilar Gratuito</p>
+                  <p class="text-xs text-white/80">Incluido en tu primera reserva</p>
+                </div>
+              </div>
+
+              <!-- Tarjeta Flotante: Experiencia VIP -->
+              <div class="absolute -bottom-6 -left-4 sm:-left-8 z-20 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-elevated border border-brand-200 flex items-center gap-3.5 max-w-xs">
+                <div class="w-12 h-12 rounded-xl bg-brand-100 flex items-center justify-center text-brand-700 shrink-0">
+                  <i data-lucide="award" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-noir uppercase tracking-wider">Productos Premium</h4>
+                  <p class="text-[11px] text-noir-muted">Formulaciones orgánicas y libres de sulfatos.</p>
+                </div>
+              </div>
+
+              <!-- Badge Flotante Superior -->
+              <div class="absolute -top-4 -right-4 sm:-right-6 z-20 bg-noir text-white px-4 py-2 rounded-2xl shadow-elevated border border-brand-800 flex items-center gap-2">
+                <i data-lucide="coffee" class="w-4 h-4 text-champagne"></i>
+                <span class="text-xs font-medium">Bebida de cortesía</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VENTAJAS / VALUE PROPOSITION -->
+    <section class="py-10 bg-white border-y border-brand-200/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div class="p-3">
+            <i data-lucide="scissors" class="w-6 h-6 mx-auto mb-2 text-brand-600"></i>
+            <h4 class="font-bold text-sm text-noir">Cortes de Autor</h4>
+            <p class="text-xs text-noir-muted mt-1">Diseñados para tu fisonomía</p>
+          </div>
+          <div class="p-3">
+            <i data-lucide="palette" class="w-6 h-6 mx-auto mb-2 text-brand-600"></i>
+            <h4 class="font-bold text-sm text-noir">Coloración High-End</h4>
+            <p class="text-xs text-noir-muted mt-1">Balayage & tonos luminosos</p>
+          </div>
+          <div class="p-3">
+            <i data-lucide="leaf" class="w-6 h-6 mx-auto mb-2 text-brand-600"></i>
+            <h4 class="font-bold text-sm text-noir">Cosmética Vegana</h4>
+            <p class="text-xs text-noir-muted mt-1">Cuidado libre de crueldad</p>
+          </div>
+          <div class="p-3">
+            <i data-lucide="clock" class="w-6 h-6 mx-auto mb-2 text-brand-600"></i>
+            <h4 class="font-bold text-sm text-noir">Puntualidad Absoluta</h4>
+            <p class="text-xs text-noir-muted mt-1">Tu tiempo es sagrado</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: CATÁLOGO DE SERVICIOS -->
+    <section id="servicios" class="py-16 md:py-24 bg-brand-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header de Sección -->
+        <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <span class="text-xs font-bold tracking-widest uppercase text-brand-600 bg-brand-100 px-3 py-1 rounded-full border border-brand-200">
+            Nuestra Carta
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-noir mt-3">
+            Catálogo de Servicios Exclusivos
+          </h2>
+          <p class="text-noir-muted text-sm sm:text-base mt-3">
+            Selecciona tu tratamiento preferido para incluirlo en tu sesión de belleza personalizada.
+          </p>
+        </div>
+
+        <!-- Grid de Servicios (Mobile First: 1 col -> 2 col -> 3 col) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          
+          <!-- Servicio 1: Corte de Autor -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=700&q=80" 
+                  alt="Corte & Styling Personalizado" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute top-4 left-4">
+                  <span class="bg-noir text-champagne text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    Más Solicitado
+                  </span>
+                </div>
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>50 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Corte de Autor & Styling
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$45.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  Asesoría visagista, lavado relajante con masaje craneal, corte personalizado y peinado profesional con acabado de pasarela.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Lavado Spa</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Styling Térmico</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Corte de Autor & Styling', '$45.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Servicio 2: Balayage & Colorimetría -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=700&q=80" 
+                  alt="Balayage y Tinte Premium" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute top-4 left-4">
+                  <span class="bg-brand-600 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                    Color Exclusivo
+                  </span>
+                </div>
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>180 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Balayage & Efectos de Luz
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$120.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  Degradado a mano alzada para un brillo multidimensional. Incluye matización de alta pureza y tratamiento protector de enlaces Plex.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Protector Plex</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Matización</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Balayage & Efectos de Luz', '$120.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Servicio 3: Botox Capilar & Hidratación -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=700&q=80" 
+                  alt="Tratamiento Capilar Intensivo" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>75 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Botox Capilar & Reconstrucción
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$70.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  Inyección de ácido hialurónico, colágeno y aminoácidos para sellar cutículas, eliminar el frizz y devolver sedosidad al cabello castigado.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Anti-Frizz</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Brillo Espejo</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Botox Capilar & Reconstrucción', '$70.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Servicio 4: Manicura & Spa de Uñas -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=700&q=80" 
+                  alt="Spa de Uñas y Esmaltado Semipermanente" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>60 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Spa de Manos & Semipermanente
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$35.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  Exfoliación con sales marinas, nutrición de cutículas, masaje relajante y esmaltado en gel de larga duración con secado LED.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Gel 21 días</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Masaje Spa</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Spa de Manos & Semipermanente', '$35.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Servicio 5: Alisado Orgánico Taninoplastia -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=700&q=80" 
+                  alt="Alisado Taninoplastia Orgánica" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>150 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Alisado Orgánico Tanino
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$140.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  0% formaldehído. Alisado natural con extractos botánicos que reestructura la fibra capilar manteniendo movimiento natural y brillo cristalino.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">0% Formol</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Efecto 4-6 meses</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Alisado Orgánico Tanino', '$140.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Servicio 6: Peinado Novias & Eventos -->
+          <div class="service-card group bg-white rounded-3xl overflow-hidden border border-brand-200/80 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden bg-brand-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=700&q=80" 
+                  alt="Peinado Novias y Ocasiones Especiales" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                >
+                <div class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm text-noir px-3 py-1 rounded-xl text-xs font-semibold shadow flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>90 min</span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-serif text-xl font-bold text-noir group-hover:text-brand-600 transition-colors">
+                    Recogidos & Peinados de Gala
+                  </h3>
+                  <span class="text-xl font-bold text-noir font-serif shrink-0 ml-2">$65.00</span>
+                </div>
+                <p class="text-xs sm:text-sm text-noir-muted leading-relaxed mb-4">
+                  Creaciones elegantes para bodas, galas y ocasiones inolvidables. Incluye preparación de textura, fijación invisible y colocación de tocados.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Novias & Fiesta</span>
+                  <span class="text-[11px] bg-brand-100 text-brand-800 font-medium px-2.5 py-0.5 rounded-md">Larga Duración</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-0">
+              <button 
+                onclick="seleccionarServicio('Recogidos & Peinados de Gala', '$65.00')" 
+                class="w-full bg-brand-100 hover:bg-noir text-noir hover:text-white font-medium py-3 rounded-2xl transition-all duration-200 text-xs sm:text-sm flex items-center justify-center gap-2 group-hover:bg-noir group-hover:text-white"
+              >
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Elegir para mi cita</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: SIMULACIÓN DE CALENDARIO Y AGENDAMIENTO -->
+    <section id="reserva" class="py-16 md:py-24 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs font-bold tracking-widest uppercase text-brand-600 bg-brand-100 px-3 py-1 rounded-full border border-brand-200">
+            Agenda Online
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-noir mt-3">
+            Elige el Momento Ideal para Ti
+          </h2>
+          <p class="text-noir-muted text-sm sm:text-base mt-2">
+            Simulador visual e interactivo: selecciona tu día, horario preferido y especialista.
+          </p>
+        </div>
+
+        <!-- Módulo de Reserva Interactivo -->
+        <div class="max-w-5xl mx-auto bg-brand-50/70 border border-brand-200 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-elevated">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Columna Izquierda: Selector de Día y Hora -->
+            <div class="lg:col-span-7 space-y-7">
+              
+              <!-- 1. Selección de Estilista -->
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-noir-muted mb-3 flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-noir text-white text-[10px] flex items-center justify-center">1</span>
+                  Selecciona tu Estilista
+                </label>
+                <div class="grid grid-cols-3 gap-3">
+                  <button type="button" onclick="setStylist(this, 'Valeria Dumas', 'Master Colorist')" class="stylist-btn active-stylist p-3 rounded-2xl border-2 border-brand-600 bg-white text-left transition-all flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=120&h=120&q=80" alt="Valeria" class="w-10 h-10 rounded-full object-cover mb-2 ring-2 ring-brand-300">
+                    <span class="text-xs font-bold text-noir block">Valeria D.</span>
+                    <span class="text-[10px] text-brand-600">Colorista Master</span>
+                  </button>
+                  <button type="button" onclick="setStylist(this, 'Mateo Ross', 'Corte & Estilo')" class="stylist-btn p-3 rounded-2xl border-2 border-transparent bg-white hover:border-brand-300 text-left transition-all flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80" alt="Mateo" class="w-10 h-10 rounded-full object-cover mb-2 ring-2 ring-brand-200">
+                    <span class="text-xs font-bold text-noir block">Mateo R.</span>
+                    <span class="text-[10px] text-noir-muted">Diseño & Corte</span>
+                  </button>
+                  <button type="button" onclick="setStylist(this, 'Cualquiera disponible', 'Asignación Óptima')" class="stylist-btn p-3 rounded-2xl border-2 border-transparent bg-white hover:border-brand-300 text-left transition-all flex flex-col items-center sm:items-start text-center sm:text-left">
+                    <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 mb-2 font-bold text-xs">
+                      ✨
+                    </div>
+                    <span class="text-xs font-bold text-noir block">Cualquiera</span>
+                    <span class="text-[10px] text-noir-muted">Más rápido</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 2. Simulación de Calendario (Días de la semana) -->
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <label class="text-xs font-bold uppercase tracking-wider text-noir-muted flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-noir text-white text-[10px] flex items-center justify-center">2</span>
+                    Selecciona el Día
+                  </label>
+                  <span class="text-xs font-medium text-brand-700 flex items-center gap-1">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                    Octubre 2026
+                  </span>
+                </div>
+
+                <!-- Carrusel / Fila de Días Interactiva -->
+                <div class="grid grid-cols-5 sm:grid-cols-6 gap-2" id="daysContainer">
+                  <!-- Lunes 12 -->
+                  <button type="button" onclick="selectDate(this, 'Lunes, 12 Octubre')" class="day-slot p-3 rounded-2xl border border-brand-200 bg-white hover:border-brand-500 text-center transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-noir-muted">Lun</span>
+                    <span class="block text-base sm:text-lg font-bold text-noir my-0.5">12</span>
+                    <span class="block text-[9px] text-emerald-600 font-medium">Libre</span>
+                  </button>
+                  <!-- Martes 13 (Activo por defecto) -->
+                  <button type="button" onclick="selectDate(this, 'Martes, 13 Octubre')" class="day-slot active-day p-3 rounded-2xl border-2 border-brand-600 bg-noir text-white text-center shadow-md transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-champagne">Mar</span>
+                    <span class="block text-base sm:text-lg font-bold text-white my-0.5">13</span>
+                    <span class="block text-[9px] text-brand-200 font-medium">Hoy</span>
+                  </button>
+                  <!-- Miércoles 14 -->
+                  <button type="button" onclick="selectDate(this, 'Miércoles, 14 Octubre')" class="day-slot p-3 rounded-2xl border border-brand-200 bg-white hover:border-brand-500 text-center transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-noir-muted">Mié</span>
+                    <span class="block text-base sm:text-lg font-bold text-noir my-0.5">14</span>
+                    <span class="block text-[9px] text-emerald-600 font-medium">Libre</span>
+                  </button>
+                  <!-- Jueves 15 -->
+                  <button type="button" onclick="selectDate(this, 'Jueves, 15 Octubre')" class="day-slot p-3 rounded-2xl border border-brand-200 bg-white hover:border-brand-500 text-center transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-noir-muted">Jue</span>
+                    <span class="block text-base sm:text-lg font-bold text-noir my-0.5">15</span>
+                    <span class="block text-[9px] text-amber-600 font-medium">3 citas</span>
+                  </button>
+                  <!-- Viernes 16 -->
+                  <button type="button" onclick="selectDate(this, 'Viernes, 16 Octubre')" class="day-slot p-3 rounded-2xl border border-brand-200 bg-white hover:border-brand-500 text-center transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-noir-muted">Vie</span>
+                    <span class="block text-base sm:text-lg font-bold text-noir my-0.5">16</span>
+                    <span class="block text-[9px] text-emerald-600 font-medium">Libre</span>
+                  </button>
+                  <!-- Sábado 17 (Oculto en móvil ultra pequeño para encajar) -->
+                  <button type="button" onclick="selectDate(this, 'Sábado, 17 Octubre')" class="day-slot hidden sm:block p-3 rounded-2xl border border-brand-200 bg-white hover:border-brand-500 text-center transition-all">
+                    <span class="block text-[10px] uppercase font-bold text-noir-muted">Sáb</span>
+                    <span class="block text-base sm:text-lg font-bold text-noir my-0.5">17</span>
+                    <span class="block text-[9px] text-amber-600 font-medium">Últimos</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. Selección de Hora -->
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-noir-muted mb-3 flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-noir text-white text-[10px] flex items-center justify-center">3</span>
+                  Selecciona la Hora
+                </label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="hoursContainer">
+                  <button type="button" onclick="selectHour(this, '10:00 AM')" class="hour-slot p-3 rounded-xl border border-brand-200 bg-white text-xs font-semibold hover:border-brand-500 text-noir flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-500"></i>
+                    <span>10:00 AM</span>
+                  </button>
+                  <button type="button" onclick="selectHour(this, '11:30 AM')" class="hour-slot active-hour p-3 rounded-xl border-2 border-brand-600 bg-noir text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow transition-all">
+                    <i data-lucide="sun" class="w-3.5 h-3.5 text-champagne"></i>
+                    <span>11:30 AM</span>
+                  </button>
+                  <button type="button" onclick="selectHour(this, '02:30 PM')" class="hour-slot p-3 rounded-xl border border-brand-200 bg-white text-xs font-semibold hover:border-brand-500 text-noir flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="sunset" class="w-3.5 h-3.5 text-brand-600"></i>
+                    <span>02:30 PM</span>
+                  </button>
+                  <button type="button" onclick="selectHour(this, '04:00 PM')" class="hour-slot p-3 rounded-xl border border-brand-200 bg-white text-xs font-semibold hover:border-brand-500 text-noir flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="sunset" class="w-3.5 h-3.5 text-brand-600"></i>
+                    <span>04:00 PM</span>
+                  </button>
+                  <button type="button" onclick="selectHour(this, '05:30 PM')" class="hour-slot p-3 rounded-xl border border-brand-200 bg-white text-xs font-semibold hover:border-brand-500 text-noir flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>05:30 PM</span>
+                  </button>
+                  <button type="button" onclick="selectHour(this, '07:00 PM')" class="hour-slot p-3 rounded-xl border border-brand-200 bg-white text-xs font-semibold hover:border-brand-500 text-noir flex items-center justify-center gap-1.5 transition-all">
+                    <i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>07:00 PM</span>
+                  </button>
+                  <button type="button" disabled class="p-3 rounded-xl border border-gray-200 bg-gray-100 text-xs font-semibold text-gray-400 cursor-not-allowed flex items-center justify-center gap-1.5 line-through">
+                    <span>01:00 PM</span>
+                  </button>
+                  <button type="button" disabled class="p-3 rounded-xl border border-gray-200 bg-gray-100 text-xs font-semibold text-gray-400 cursor-not-allowed flex items-center justify-center gap-1.5 line-through">
+                    <span>03:15 PM</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Columna Derecha: Tarjeta Resumen de Cita -->
+            <div class="lg:col-span-5 bg-white p-6 sm:p-7 rounded-2xl border border-brand-200 shadow-soft">
+              <div class="flex items-center justify-between pb-4 border-b border-brand-100">
+                <h4 class="font-serif text-lg font-bold text-noir">Resumen de tu Cita</h4>
+                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Espacio Reservable
+                </span>
+              </div>
+
+              <!-- Detalle dinámico -->
+              <div class="py-5 space-y-4 text-sm">
+                <!-- Servicio Elegido -->
+                <div class="flex justify-between items-start">
+                  <div class="flex items-start gap-2.5">
+                    <div class="p-2 rounded-lg bg-brand-100 text-brand-700 shrink-0 mt-0.5">
+                      <i data-lucide="scissors" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <span class="text-xs text-noir-muted block">Servicio Seleccionado</span>
+                      <strong id="summaryService" class="font-semibold text-noir">Corte de Autor & Styling</strong>
+                    </div>
+                  </div>
+                  <span id="summaryPrice" class="font-bold text-noir font-serif">$45.00</span>
+                </div>
+
+                <!-- Estilista -->
+                <div class="flex items-center gap-2.5">
+                  <div class="p-2 rounded-lg bg-brand-100 text-brand-700 shrink-0">
+                    <i data-lucide="user-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs text-noir-muted block">Profesional a cargo</span>
+                    <strong id="summaryStylist" class="font-semibold text-noir">Valeria Dumas (Master Colorist)</strong>
+                  </div>
+                </div>
+
+                <!-- Fecha y Hora -->
+                <div class="flex items-center gap-2.5">
+                  <div class="p-2 rounded-lg bg-brand-100 text-brand-700 shrink-0">
+                    <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs text-noir-muted block">Fecha y Hora</span>
+                    <span class="font-semibold text-noir">
+                      <span id="summaryDate">Martes, 13 Octubre</span> · <span id="summaryHour">11:30 AM</span>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="flex items-center gap-2.5">
+                  <div class="p-2 rounded-lg bg-brand-100 text-brand-700 shrink-0">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <span class="text-xs text-noir-muted block">Ubicación Salón</span>
+                    <span class="font-semibold text-noir">Av. Las Camelias 480, San Isidro</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Política y Total -->
+              <div class="pt-4 border-t border-brand-100 space-y-4">
+                <div class="bg-brand-50 p-3 rounded-xl border border-brand-200/70 text-[11px] text-noir-muted flex items-start gap-2">
+                  <i data-lucide="info" class="w-4 h-4 text-brand-600 shrink-0 mt-0.5"></i>
+                  <span>No se cobra nada por adelantado en el prototipo. Pago al finalizar tu cita. Cancelación gratuita con 24h de aviso.</span>
+                </div>
+
+                <div class="flex justify-between items-center">
+                  <span class="text-xs uppercase tracking-wider text-noir-muted font-bold">Total Estimado:</span>
+                  <span id="summaryTotal" class="text-2xl font-bold font-serif text-noir">$45.00</span>
+                </div>
+
+                <!-- Botón de Confirmación -->
+                <button 
+                  type="button" 
+                  onclick="confirmarCita()" 
+                  class="w-full bg-noir hover:bg-brand-800 text-white font-semibold py-4 rounded-2xl shadow-elevated hover:shadow-glow transition-all duration-300 flex items-center justify-center gap-2 text-sm"
+                >
+                  <i data-lucide="check-circle" class="w-5 h-5 text-champagne"></i>
+                  <span>Confirmar mi Cita</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: TIENDA DE PRODUCTOS DE BELLEZA -->
+    <section id="productos" class="py-16 md:py-24 bg-brand-100/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header de Sección -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div class="max-w-xl">
+            <span class="text-xs font-bold tracking-widest uppercase text-brand-600 bg-brand-100 px-3 py-1 rounded-full border border-brand-200">
+              Boutique Store
+            </span>
+            <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-noir mt-3">
+              Cuidado Profesional en Casa
+            </h2>
+            <p class="text-noir-muted text-sm sm:text-base mt-2">
+              Lleva a tu rutina los mismos productos de alta cosmética que utilizamos en el salón.
+            </p>
+          </div>
+          <div class="mt-4 md:mt-0 flex items-center gap-2">
+            <span class="text-xs text-noir-muted">Envíos a todo el país</span>
+            <div class="h-4 w-px bg-brand-300"></div>
+            <span class="text-xs font-bold text-brand-700">100% Originales</span>
+          </div>
+        </div>
+
+        <!-- Grid de Productos (Mobile-First) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          
+          <!-- Producto 1: Sérum Molecular -->
+          <div class="bg-white rounded-3xl p-5 border border-brand-200/90 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <!-- Imagen Producto con Badge -->
+              <div class="relative rounded-2xl overflow-hidden bg-brand-50 mb-5 aspect-square flex items-center justify-center p-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1608248597359-679940733d02?auto=format&fit=crop&w=600&q=80" 
+                  alt="Sérum Capilar Reconstructor" 
+                  class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                >
+                <span class="absolute top-3 left-3 bg-noir text-champagne text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                  Top Ventas
+                </span>
+                <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm text-noir-muted hover:text-rose-500 transition-colors">
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- Información Producto -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-brand-600 font-semibold tracking-wide uppercase text-[10px]">Tratamiento Elixir</span>
+                  <div class="flex items-center text-amber-500 text-xs">
+                    ★★★★★ <span class="text-noir font-bold ml-1 text-[11px]">(48)</span>
+                  </div>
+                </div>
+
+                <h3 class="font-serif text-lg font-bold text-noir group-hover:text-brand-600 transition-colors">
+                  Sérum Molecular de Seda & Argán
+                </h3>
+                
+                <p class="text-xs text-noir-muted line-clamp-2">
+                  Sella puntas abiertas de forma instantánea, aporta brillo espejo sin apelmazar y protege del calor hasta 230°C.
+                </p>
+
+                <div class="pt-2 text-xs text-noir-muted">
+                  Presentación: <span class="font-medium text-noir">Frasco con dosificador 100ml</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Precio y Botón Carrito -->
+            <div class="pt-5 mt-5 border-t border-brand-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase text-noir-muted block">Precio</span>
+                <span class="text-xl font-serif font-bold text-noir">$38.50</span>
+              </div>
+              <button 
+                onclick="anadirAlCarrito('Sérum Molecular de Seda', 38.50)" 
+                class="inline-flex items-center gap-2 bg-noir hover:bg-brand-700 text-white text-xs font-semibold px-4 py-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow"
+              >
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-champagne"></i>
+                <span>Añadir al carrito</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Producto 2: Mascarilla Nutritiva Profunda -->
+          <div class="bg-white rounded-3xl p-5 border border-brand-200/90 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <!-- Imagen Producto -->
+              <div class="relative rounded-2xl overflow-hidden bg-brand-50 mb-5 aspect-square flex items-center justify-center p-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=600&q=80" 
+                  alt="Mascarilla Nutritiva Queratina" 
+                  class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                >
+                <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                  Recomendado
+                </span>
+                <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm text-noir-muted hover:text-rose-500 transition-colors">
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- Información Producto -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-brand-600 font-semibold tracking-wide uppercase text-[10px]">Nutrición Intensiva</span>
+                  <div class="flex items-center text-amber-500 text-xs">
+                    ★★★★★ <span class="text-noir font-bold ml-1 text-[11px]">(35)</span>
+                  </div>
+                </div>
+
+                <h3 class="font-serif text-lg font-bold text-noir group-hover:text-brand-600 transition-colors">
+                  Mascarilla Bioreparadora de Queratina
+                </h3>
+                
+                <p class="text-xs text-noir-muted line-clamp-2">
+                  Tratamiento intensivo semanal con manteca de karité pura y ceramidas vegetales para reparar cabellos decolorados o secos.
+                </p>
+
+                <div class="pt-2 text-xs text-noir-muted">
+                  Presentación: <span class="font-medium text-noir">Tarro Spa 250ml</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Precio y Botón Carrito -->
+            <div class="pt-5 mt-5 border-t border-brand-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase text-noir-muted block">Precio</span>
+                <span class="text-xl font-serif font-bold text-noir">$42.00</span>
+              </div>
+              <button 
+                onclick="anadirAlCarrito('Mascarilla Bioreparadora', 42.00)" 
+                class="inline-flex items-center gap-2 bg-noir hover:bg-brand-700 text-white text-xs font-semibold px-4 py-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow"
+              >
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-champagne"></i>
+                <span>Añadir al carrito</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Producto 3: Aceite Esencial de Brillo y Densidad -->
+          <div class="bg-white rounded-3xl p-5 border border-brand-200/90 shadow-soft hover:shadow-elevated transition-all duration-300 flex flex-col justify-between group sm:col-span-2 lg:col-span-1">
+            <div>
+              <!-- Imagen Producto -->
+              <div class="relative rounded-2xl overflow-hidden bg-brand-50 mb-5 aspect-square flex items-center justify-center p-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=600&q=80" 
+                  alt="Aceite Esencial Brillo Orgánico" 
+                  class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                >
+                <span class="absolute top-3 left-3 bg-emerald-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                  100% Vegano
+                </span>
+                <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-sm text-noir-muted hover:text-rose-500 transition-colors">
+                  <i data-lucide="heart" class="w-4 h-4"></i>
+                </button>
+              </div>
+
+              <!-- Información Producto -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-brand-600 font-semibold tracking-wide uppercase text-[10px]">Aceite Botánico</span>
+                  <div class="flex items-center text-amber-500 text-xs">
+                    ★★★★★ <span class="text-noir font-bold ml-1 text-[11px]">(62)</span>
+                  </div>
+                </div>
+
+                <h3 class="font-serif text-lg font-bold text-noir group-hover:text-brand-600 transition-colors">
+                  Aceite Botánico de Camelia & Jojoba
+                </h3>
+                
+                <p class="text-xs text-noir-muted line-clamp-2">
+                  Fórmula ultraligera de rápida absorción que controla el encrespamiento, nutre el cuero cabelludo y perfuma con notas florales.
+                </p>
+
+                <div class="pt-2 text-xs text-noir-muted">
+                  Presentación: <span class="font-medium text-noir">Gotero de cristal 50ml</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Precio y Botón Carrito -->
+            <div class="pt-5 mt-5 border-t border-brand-100 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase text-noir-muted block">Precio</span>
+                <span class="text-xl font-serif font-bold text-noir">$29.90</span>
+              </div>
+              <button 
+                onclick="anadirAlCarrito('Aceite Botánico de Camelia', 29.90)" 
+                class="inline-flex items-center gap-2 bg-noir hover:bg-brand-700 text-white text-xs font-semibold px-4 py-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow"
+              >
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-champagne"></i>
+                <span>Añadir al carrito</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TESTIMONIALES & FILOSOFÍA -->
+    <section id="nosotros" class="py-16 md:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-noir rounded-3xl p-8 sm:p-12 lg:p-16 text-white relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-brand-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="max-w-2xl">
+            <span class="text-xs font-bold tracking-widest uppercase text-champagne">Nuestra Promesa</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-2 leading-tight">
+              "No solo transformamos tu cabello, creamos un momento de indulgencia y bienestar para ti."
+            </h2>
+            <p class="text-gray-300 text-sm sm:text-base mt-4 font-light leading-relaxed">
+              Cada visita a Boutique de la Belleza comienza con un café de especialidad o infusión relajante, una charla honesta sobre lo que tu cabello necesita y un compromiso total con tu satisfacción.
+            </p>
+
+            <div class="mt-8 flex items-center gap-4">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80" alt="Directora Creativa" class="w-12 h-12 rounded-full object-cover ring-2 ring-champagne">
+              <div>
+                <h4 class="font-bold text-sm text-white">Elena Saint-Laurent</h4>
+                <p class="text-xs text-brand-300">Fundadora & Master Stylist</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-noir text-white border-t border-brand-900 pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
+        
+        <!-- Columna 1: Marca -->
+        <div class="lg:col-span-2 space-y-4">
+          <a href="#" class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-brand-800 flex items-center justify-center text-champagne">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <span class="font-serif text-2xl font-bold tracking-tight text-white">
+              Boutique <span class="italic font-normal text-champagne">de la Belleza</span>
+            </span>
+          </a>
+          <p class="text-xs sm:text-sm text-gray-400 max-w-sm leading-relaxed font-light">
+            Salón de alta estética capilar y belleza integral. Pasión por la técnica, respeto por la salud de tu fibra capilar y exclusividad en cada detalle.
+          </p>
+          <div class="flex gap-3 pt-2">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-champagne flex items-center justify-center transition-colors">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-champagne flex items-center justify-center transition-colors">
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-champagne flex items-center justify-center transition-colors">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna 2: Enlaces Rápidos -->
+        <div>
+          <h4 class="text-xs uppercase font-bold tracking-widest text-champagne mb-4">Navegación</h4>
+          <ul class="space-y-2.5 text-xs text-gray-400">
+            <li><a href="#servicios" class="hover:text-white transition-colors">Servicios Principales</a></li>
+            <li><a href="#reserva" class="hover:text-white transition-colors">Reservar en Línea</a></li>
+            <li><a href="#productos" class="hover:text-white transition-colors">Tienda Online</a></li>
+            <li><a href="#nosotros" class="hover:text-white transition-colors">Sobre Nosotros</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Horarios -->
+        <div>
+          <h4 class="text-xs uppercase font-bold tracking-widest text-champagne mb-4">Horarios de Atención</h4>
+          <ul class="space-y-2 text-xs text-gray-400">
+            <li class="flex justify-between">
+              <span>Lun - Vie:</span>
+              <span class="text-white font-medium">9:00 AM - 8:00 PM</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Sábados:</span>
+              <span class="text-white font-medium">9:00 AM - 7:00 PM</span>
+            </li>
+            <li class="flex justify-between">
+              <span>Domingos:</span>
+              <span class="text-brand-400">Previa Cita VIP</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Columna 4: Contacto y Ubicación -->
+        <div>
+          <h4 class="text-xs uppercase font-bold tracking-widest text-champagne mb-4">Ubicación & Contacto</h4>
+          <ul class="space-y-2.5 text-xs text-gray-400">
+            <li class="flex items-start gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-brand-400 shrink-0 mt-0.5"></i>
+              <span>Av. Las Camelias 480, San Isidro</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <span>+34 (91) 456-7890</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i data-lucide="mail" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <span>contacto@boutiquebelleza.com</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+        <p>© 2026 Boutique de la Belleza. Todos los derechos reservados. Prototipo Visual Frontend.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-gray-300">Privacidad</a>
+          <a href="#" class="hover:text-gray-300">Términos de Servicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DE CONFIRMACIÓN DE CITA -->
+  <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-noir/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-elevated transform scale-95 transition-transform duration-300 border border-brand-200 text-center space-y-4">
+      <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+        <i data-lucide="calendar-check" class="w-7 h-7"></i>
+      </div>
+      
+      <h3 class="font-serif text-2xl font-bold text-noir">¡Cita Pre-Agendada!</h3>
+      
+      <p class="text-xs sm:text-sm text-noir-muted leading-relaxed">
+        Hemos reservado tu espacio provisionalmente. En una versión con backend, recibirías un SMS o correo con el enlace de confirmación.
+      </p>
+
+      <div class="bg-brand-50 p-4 rounded-2xl text-left text-xs space-y-2 border border-brand-200">
+        <div class="flex justify-between">
+          <span class="text-noir-muted">Servicio:</span>
+          <strong id="modalService" class="text-noir">Corte de Autor</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-noir-muted">Fecha & Hora:</span>
+          <strong id="modalDateTime" class="text-noir">Mar, 13 Oct - 11:30 AM</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-noir-muted">Estilista:</span>
+          <strong id="modalStylist" class="text-noir">Valeria Dumas</strong>
+        </div>
+        <div class="flex justify-between border-t border-brand-200 pt-1 font-bold">
+          <span>Total:</span>
+          <span id="modalTotal" class="text-brand-700">$45.00</span>
+        </div>
+      </div>
+
+      <button onclick="cerrarModal()" class="w-full bg-noir hover:bg-brand-800 text-white font-medium py-3 rounded-xl transition-colors text-sm">
+        Entendido / Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LIGERO PARA INTERACTIVIDAD VISUAL -->
+  <script>
+    // Inicializar Lucide Icons
+    lucide.createIcons();
+
+    // Estado del Prototipo
+    let carritoContador = 0;
+    let servicioActual = 'Corte de Autor & Styling';
+    let precioActual = '$45.00';
+    let estilistaActual = 'Valeria Dumas (Master Colorist)';
+    let fechaActual = 'Martes, 13 Octubre';
+    let horaActual = '11:30 AM';
+
+    // Toggle Menú Móvil
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Cerrar menú móvil al hacer click en un enlace
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Añadir al Carrito (Simulación)
+    function anadirAlCarrito(nombreProducto, precio) {
+      carritoContador++;
+      const badge = document.getElementById('cartCountBadge');
+      badge.textContent = carritoContador;
+      badge.classList.add('scale-125');
+      setTimeout(() => badge.classList.remove('scale-125'), 200);
+
+      mostrarToast(`Añadido: ${nombreProducto} ($${precio.toFixed(2)})`);
+    }
+
+    // Notificación Toast Flotante
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = mensaje;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    // Seleccionar Servicio desde la Tarjeta
+    function seleccionarServicio(servicio, precio) {
+      servicioActual = servicio;
+      precioActual = precio;
+      document.getElementById('summaryService').textContent = servicio;
+      document.getElementById('summaryPrice').textContent = precio;
+      document.getElementById('summaryTotal').textContent = precio;
+      
+      // Desplazar suavemente a la sección de reserva
+      document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+      mostrarToast(`Servicio seleccionado: ${servicio}`);
+    }
+
+    // Seleccionar Estilista
+    function setStylist(el, nombre, rol) {
+      document.querySelectorAll('.stylist-btn').forEach(btn => {
+        btn.classList.remove('active-stylist', 'border-brand-600');
+        btn.classList.add('border-transparent');
+      });
+      el.classList.add('active-stylist', 'border-brand-600');
+      el.classList.remove('border-transparent');
+
+      estilistaActual = `${nombre} (${rol})`;
+      document.getElementById('summaryStylist').textContent = estilistaActual;
+    }
+
+    // Seleccionar Día
+    function selectDate(el, fecha) {
+      document.querySelectorAll('.day-slot').forEach(slot => {
+        slot.classList.remove('bg-noir', 'text-white', 'border-brand-600', 'shadow-md');
+        slot.classList.add('bg-white', 'border-brand-200');
+        const dayLabel = slot.querySelector('span:first-child');
+        const numLabel = slot.querySelector('span:nth-child(2)');
+        if (dayLabel) dayLabel.className = 'block text-[10px] uppercase font-bold text-noir-muted';
+        if (numLabel) numLabel.className = 'block text-base sm:text-lg font-bold text-noir my-0.5';
+      });
+
+      el.classList.add('bg-noir', 'text-white', 'border-brand-600', 'shadow-md');
+      el.classList.remove('bg-white', 'border-brand-200');
+      const activeDayLabel = el.querySelector('span:first-child');
+      const activeNumLabel = el.querySelector('span:nth-child(2)');
+      if (activeDayLabel) activeDayLabel.className = 'block text-[10px] uppercase font-bold text-champagne';
+      if (activeNumLabel) activeNumLabel.className = 'block text-base sm:text-lg font-bold text-white my-0.5';
+
+      fechaActual = fecha;
+      document.getElementById('summaryDate').textContent = fecha;
+    }
+
+    // Seleccionar Hora
+    function selectHour(el, hora) {
+      document.querySelectorAll('.hour-slot').forEach(slot => {
+        slot.classList.remove('bg-noir', 'text-white', 'border-2', 'border-brand-600', 'shadow');
+        slot.classList.add('bg-white', 'text-noir', 'border', 'border-brand-200');
+      });
+
+      el.classList.add('bg-noir', 'text-white', 'border-2', 'border-brand-600', 'shadow');
+      el.classList.remove('bg-white', 'text-noir', 'border-brand-200');
+
+      horaActual = hora;
+      document.getElementById('summaryHour').textContent = hora;
+    }
+
+    // Confirmar Cita (Abrir Modal)
+    function confirmarCita() {
+      document.getElementById('modalService').textContent = servicioActual;
+      document.getElementById('modalDateTime').textContent = `${fechaActual} - ${horaActual}`;
+      document.getElementById('modalStylist').textContent = estilistaActual;
+      document.getElementById('modalTotal').textContent = precioActual;
+
+      const modal = document.getElementById('bookingModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.firstElementChild.classList.remove('scale-95');
+      modal.firstElementChild.classList.add('scale-100');
+    }
+
+    // Cerrar Modal
+    function cerrarModal() {
+      const modal = document.getElementById('bookingModal');
+      modal.firstElementChild.classList.remove('scale-100');
+      modal.firstElementChild.classList.add('scale-95');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+    }
+  </script>
+</body>
+</html>
