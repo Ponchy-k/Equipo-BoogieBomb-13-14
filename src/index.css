@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/*
+  Tokens de diseño de Lumina.
+  Todos los colores, radios, sombras y tipografías se definen aquí y se usan
+  como utilidades de Tailwind (bg-surface, text-ink-muted, border-line, etc.).
+  Regla de forma: controles (botones, inputs, badges) = radius-control (8px),
+  contenedores (tarjetas, modales) = radius-card (12px).
+*/
+@theme {
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Neutros cálidos */
+  --color-bg: #f6f5f1;
+  --color-surface: #fcfbf8;
+  --color-stone: #eceae4;
+  --color-sand: #ddd8cc;
+  --color-line: #e2ded5;
+  --color-line-strong: #cbc5b8;
+
+  /* Texto */
+  --color-ink: #23221f;
+  --color-ink-muted: #5e5a52;
+  --color-ink-subtle: #6f6a60;
+  --color-on-accent: #fbfbf7;
+
+  /* Acento único: oliva */
+  --color-accent: #5f6b3a;
+  --color-accent-hover: #4e5830;
+  --color-accent-soft: #e8eadb;
+  --color-accent-line: #c9cdb2;
+
+  /* Estados (apagados, solo con significado semántico) */
+  --color-success: #3f6b4e;
+  --color-success-soft: #e2ece4;
+  --color-warning: #7d5f17;
+  --color-warning-soft: #f3ecd9;
+  --color-danger: #9a3b2e;
+  --color-danger-soft: #f5e3df;
+
+  --radius-control: 0.5rem;
+  --radius-card: 0.75rem;
+
+  --shadow-soft: 0 1px 2px rgb(60 52 40 / 0.05), 0 2px 8px rgb(60 52 40 / 0.04);
+  --shadow-raised: 0 4px 12px rgb(60 52 40 / 0.08), 0 16px 40px rgb(60 52 40 / 0.08);
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-fade-in: fade-in 200ms var(--ease-out-soft);
+  --animate-rise-in: rise-in 260ms var(--ease-out-soft);
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  h1, h2, h3 {
+    @apply font-display text-ink;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  ::selection {
+    background: var(--color-accent-soft);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  button, [role="button"], a, select, summary, label[for] {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Escala de capas (z-index) documentada: header < drawer < selector demo < modal < toast */
+:root {
+  --z-header: 30;
+  --z-drawer: 40;
+  --z-switcher: 45;
+  --z-modal: 50;
+  --z-toast: 60;
+}
