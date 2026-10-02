@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import {
   CalendarDays, ClipboardList, Contact, ExternalLink, LayoutDashboard, ListChecks, LogOut, Menu,
   Package, PanelLeftClose, PanelLeftOpen, Scissors, ShoppingBag, UserPlus, Users, Wallet, X,
@@ -94,14 +94,14 @@ export function DashboardLayout() {
 
   const pie = (compacto) => (
     <div className={cn('flex flex-col gap-0.5 border-t border-line pt-3', compacto && 'items-center')}>
-      <a
-        href="/"
+      <Link
+        to="/"
         title={compacto ? 'Ver sitio público' : undefined}
         className={cn('flex h-10 items-center gap-3 rounded-control px-3 text-sm text-ink-muted hover:bg-stone hover:text-ink', compacto && 'w-10 justify-center px-0')}
       >
         <ExternalLink className="size-4 shrink-0" strokeWidth={1.75} aria-hidden="true" />
         <span className={cn(compacto && 'sr-only')}>Ver sitio público</span>
-      </a>
+      </Link>
       <button
         onClick={logout}
         title={compacto ? 'Cerrar sesión' : undefined}
