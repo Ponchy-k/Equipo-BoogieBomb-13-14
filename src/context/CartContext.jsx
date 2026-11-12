@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { USA_API } from '../services'
 
-const STORAGE_KEY = 'lumina:carrito'
+const STORAGE_KEY = USA_API ? 'lumina:carrito:api' : 'lumina:carrito'
 const CartContext = createContext(null)
 
 function leer() {

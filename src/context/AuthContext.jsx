@@ -1,7 +1,8 @@
 import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import * as api from '../services'
 
-const STORAGE_KEY = 'lumina:sesion'
+// Sesiones separadas para mocks y API (los ids son distintos en cada modo)
+const STORAGE_KEY = api.USA_API ? 'lumina:sesion:api' : 'lumina:sesion'
 const AuthContext = createContext(null)
 
 /** Inicio de cada rol después de iniciar sesión. */

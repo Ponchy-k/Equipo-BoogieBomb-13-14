@@ -26,7 +26,7 @@ export default function Registro() {
     if (Object.keys(errs).length) return
     setEnviando(true)
     try {
-      await registro({ nombre: form.nombre.trim(), telefono: form.telefono.trim(), correo: form.correo.trim() })
+      await registro({ nombre: form.nombre.trim(), telefono: form.telefono.trim(), correo: form.correo.trim(), password: form.password })
       toast.success('Cuenta creada. ¡Bienvenido a Lumina!')
       navigate(location.state?.desde ?? '/mi-cuenta', { replace: true })
     } catch (err) {
